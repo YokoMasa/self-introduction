@@ -19,26 +19,30 @@
       document.addEventListener("DOMContentLoaded", () => {
         const storageTokenKey = "EZDOC_FORM_TOKEN";
         const ezdocFormEmbed = document.getElementById("ezdoc-form-embed");
-        if (ezdocFormEmbed == null || !(ezdocFormEmbed instanceof HTMLIFrameElement)) {
-          return;
-        }
+        let stopMessage = false;
 
         window.addEventListener("message", e => {
           if (e.source !== ezdocFormEmbed.contentWindow || typeof e.data !== "object" || e.data == null) {
             return;
           }
 
-          if (e.data.type === "getToken") {
-            const existingToken = localStorage.getItem(storageTokenKey);
-            if (existingToken != null) {
-              ezdocFormEmbed.contentWindow.postMessage(existingToken, "https://viewer.ez-doc.net");
-            }
-          } else if (e.data.type === "setToken") {
+          if (e.data.type === "setCurrentToken" && e.data.ack) {
+            stopMessage = true;
+          } else if (e.data.type === "updateToken") {
             if (typeof e.data.token === "string" && e.data.token != null) {
               localStorage.setItem(storageTokenKey, e.data.token);
             }
           }
         });
+
+        const intervalId = setInterval(() => {
+          if (stopMessage) {
+            clearInterval(intervalId);
+            return;
+          }
+          const token = localStorage.getItem(storageTokenKey);
+          ezdocFormEmbed.contentWindow.postMessage({ type: "setCurrentToken", token }, "*");
+        }, 100);
       });
     </script>
   </body>
