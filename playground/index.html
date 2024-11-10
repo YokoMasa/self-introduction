@@ -24,6 +24,7 @@
         }
 
         window.addEventListener("message", e => {
+          console.log("[PARENT]", e);
           if (e.source !== ezdocFormEmbed.contentWindow || typeof e.data !== "object" || e.data == null) {
             return;
           }
