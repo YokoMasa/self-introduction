@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/index.css" rel="stylesheet"/>
+    <title>Playground</title>
+  </head>
+  <body>
+    <main class="flex justify-center">
+    <iframe
+      id="ezdoc-form-embed"
+      src="https://viewer.ez-doc.net/form.html?documentId=bebd8153-69da-491f-acc2-f66226d52556"
+      width="450px"
+      class="h-screen shadow-lg"></iframe>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const storageTokenKey = "EZDOC_FORM_TOKEN";
+        const ezdocFormEmbed = document.getElementById("ezdoc-form-embed");
+        if (ezdocFormEmbed == null || !(ezdocFormEmbed instanceof HTMLIFrameElement)) {
+          return;
+        }
+
+        window.addEventListener("message", e => {
+          if (e.source !== ezdocFormEmbed.contentWindow || typeof e.data !== "object" || e.data == null) {
+            return;
+          }
+
+          if (e.data.type === "getToken") {
+            const existingToken = localStorage.getItem(storageTokenKey);
+            if (existingToken != null) {
+              ezdocFormEmbed.contentWindow.postMessage(existingToken, "https://viewer.ez-doc.net");
+            }
+          } else if (e.data.type === "setToken") {
+            if (typeof e.data.token === "string" && e.data.token != null) {
+              localStorage.setItem(storageTokenKey, e.data.token);
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -8,6 +8,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         en: resolve(__dirname, 'en/index.html'),
         playground: resolve(__dirname, 'playground/index.html'),
+        another: resolve(__dirname, 'playground/another.html'),
       },
     },
   },
