@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/index.css" rel="stylesheet"/>
+    <title>Visibility Event Test</title>
+  </head>
+  <body class="flex justify-center">
+    <main class="w-full max-w-[700px] py-4">
+      <header class="flex items-center">
+        <h1 class="font-bold text-xl px-4 grow">
+          Visibility Event Test
+        </h1>
+        <button id="clear-events-button" class="px-2 py-1 text-white rounded bg-red-500 hover:bg-red-400 text-sm">
+          clear events
+        </button>
+      </header>
+
+      <table class="mt-4 border-separate border-spacing-4 w-full">
+        <thead>
+          <tr class="text-left">
+            <th>Timestamp</th>
+            <th>Event Name</th>
+            <th>document.visibilityState</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </main>
+    <script>
+      const tBody = document.getElementById("table-body");
+      const clearEventsButton = document.getElementById("clear-events-button");
+      clearEventsButton.addEventListener("click", () => tBody.replaceChildren());
+
+      function appendEvent(e) {
+        const tr = document.createElement("tr");
+        const timestampCell = document.createElement("td");
+        const eventNameCell = document.createElement("td");
+        const visibilityStateCell = document.createElement("td");
+
+        timestampCell.append(new Date().toISOString());
+        eventNameCell.append(e.type);
+        visibilityStateCell.append(document.visibilityState.toString());
+
+        tr.appendChild(timestampCell);
+        tr.appendChild(eventNameCell);
+        tr.appendChild(visibilityStateCell);
+        tBody.appendChild(tr);
+      }
+
+      window.addEventListener("load", appendEvent);
+      window.addEventListener("pageshow", appendEvent);
+      window.addEventListener("focus", appendEvent);
+      window.addEventListener("blur", appendEvent);
+      document.addEventListener("visibilitychange", appendEvent);
+      document.addEventListener("resume", appendEvent);
+      document.addEventListener("freeze", appendEvent);
+      window.addEventListener("pagehide", appendEvent);
+      window.addEventListener("beforeunload", appendEvent);
+      window.addEventListener("unload", appendEvent);
+
+      window.addEventListener("beforeunload", e => {
+        e.preventDefault();
+        e.returnValue = true;
+        return "You are leaving the page! See you later.";
+      });
+    </script>
+  </body>
+</html>
