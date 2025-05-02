@@ -11,46 +11,11 @@
     
     <iframe
       id="ezdoc-form-embed"
-      src="https://viewer.ez-doc.net/form.html?documentId=7f38a89a-9bcd-4d9f-a6e1-3b5eab8dc129"
-      width="450px"
-      class="h-screen shadow-lg"></iframe>
-    
-    <!--<iframe
-      id="ezdoc-form-embed"
-      src="http://localhost:5173/form.html?documentId=fd5ee449-550d-4090-b157-6b901f0a57a2"
-      width="450px"
-      class="h-screen shadow-lg"></iframe>
-    </main>-->
-
+      class="h-screen w-[400px]"
+      src="https://viewer.ez-doc.net/form.html?documentId=9024eb01-adad-4ec9-a19b-16f002ae1d14">
+    </iframe>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const storageTokenKey = "EZDOC_FORM_TOKEN";
-        const ezdocFormEmbed = document.getElementById("ezdoc-form-embed");
-        let stopMessage = false;
-
-        window.addEventListener("message", e => {
-          if (e.source !== ezdocFormEmbed.contentWindow || typeof e.data !== "object" || e.data == null) {
-            return;
-          }
-
-          if (e.data.type === "setCurrentToken" && e.data.ack) {
-            stopMessage = true;
-          } else if (e.data.type === "updateToken") {
-            if (typeof e.data.token === "string" && e.data.token != null) {
-              localStorage.setItem(storageTokenKey, e.data.token);
-            }
-          }
-        });
-
-        const intervalId = setInterval(() => {
-          if (stopMessage) {
-            clearInterval(intervalId);
-            return;
-          }
-          const token = localStorage.getItem(storageTokenKey);
-          ezdocFormEmbed.contentWindow.postMessage({ type: "setCurrentToken", token }, "*");
-        }, 100);
-      });
+      document.addEventListener("DOMContentLoaded",()=>{const t="EZDOC_FORM_TOKEN";const n=document.getElementById("ezdoc-form-embed");let o=false;window.addEventListener("message",e=>{if(e.source!==n.contentWindow||typeof e.data!=="object"||e.data==null){return}if(e.data.type==="setCurrentToken"&&e.data.ack){o=true}else if(e.data.type==="updateToken"){if(typeof e.data.t==="string"&&e.data.t!=null){localStorage.setItem(t,e.data.t)}}});const r=setInterval(()=>{if(o){clearInterval(r);return}const e=localStorage.getItem(t);n.contentWindow.postMessage({type:"setCurrentToken",t:e},"*")},100)});
     </script>
   </body>
 </html>
