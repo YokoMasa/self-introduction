@@ -10,10 +10,9 @@
     <main class="flex justify-center">
     <iframe
       id="ezdoc-form-embed"
-      src="https://viewer.ez-doc.net/form.html?documentId=bebd8153-69da-491f-acc2-f66226d52556"
-      width="450px"
-      class="h-screen shadow-lg"></iframe>
-    </main>
+      class="h-screen w-[400px]"
+      src="https://viewer.ez-doc.net/form.html?documentId=9024eb01-adad-4ec9-a19b-16f002ae1d14">
+    </iframe>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -26,11 +25,14 @@
             return;
           }
 
+          console.log(`message recieved. ${e}`);
           if (e.data.type === "setCurrentToken" && e.data.ack) {
             stopMessage = true;
+            console.log(`stopMessage = true`);
           } else if (e.data.type === "updateToken") {
             if (typeof e.data.token === "string" && e.data.token != null) {
               localStorage.setItem(storageTokenKey, e.data.token);
+              console.log(`setItem to localStorage. ${e.data.token}`);
             }
           }
         });
