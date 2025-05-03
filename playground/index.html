@@ -15,7 +15,7 @@
       src="https://viewer.ez-doc.net/form.html?documentId=9024eb01-adad-4ec9-a19b-16f002ae1d14">
     </iframe>
     <script>
-      document.addEventListener("DOMContentLoaded",()=>{const t="EZDOC_FORM_TOKEN";const n=document.getElementById("ezdoc-form-embed");let o=false;window.addEventListener("message",e=>{if(e.source!==n.contentWindow||typeof e.data!=="object"||e.data==null){return}if(e.data.type==="setCurrentToken"&&e.data.ack){o=true}else if(e.data.type==="updateToken"){if(typeof e.data.t==="string"&&e.data.t!=null){localStorage.setItem(t,e.data.t)}}});const r=setInterval(()=>{if(o){clearInterval(r);return}const e=localStorage.getItem(t);n.contentWindow.postMessage({type:"setCurrentToken",t:e},"*")},100)});
+      document.addEventListener("DOMContentLoaded",()=>{let e="EZDOC_FORM_TOKEN",t=document.getElementById("ezdoc-form-embed"),n=!1;window.addEventListener("message",a=>{a.source===t.contentWindow&&"object"==typeof a.data&&null!=a.data&&("setCurrentToken"===a.data.type&&a.data.ack?n=!0:"updateToken"===a.data.type&&"string"==typeof a.data.token&&null!=a.data.token&&localStorage.setItem(e,a.data.token))});let a=setInterval(()=>{if(n){clearInterval(a);return}let d=localStorage.getItem(e);t.contentWindow.postMessage({type:"setCurrentToken",token:d},"*")},100)});
     </script>
   </body>
 </html>

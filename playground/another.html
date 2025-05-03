@@ -25,14 +25,11 @@
             return;
           }
 
-          console.log(`message recieved. ${e}`);
           if (e.data.type === "setCurrentToken" && e.data.ack) {
             stopMessage = true;
-            console.log(`stopMessage = true`);
           } else if (e.data.type === "updateToken") {
             if (typeof e.data.token === "string" && e.data.token != null) {
               localStorage.setItem(storageTokenKey, e.data.token);
-              console.log(`setItem to localStorage. ${e.data.token}`);
             }
           }
         });
